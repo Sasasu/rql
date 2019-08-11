@@ -1,0 +1,29 @@
+version: "3.7"
+services:
+  es7:
+    image: "elasticsearch:7.3.0"
+    ports:
+      - 9200:9200
+      - 9300:9300
+    environment:
+      - cluster.name=rql-test-es-7
+      - discovery.type=single-node
+      - ES_JAVA_OPTS=-Xms1G -Xmx1G
+    volumes:
+      - rql-es7:/usr/share/elasticsearch/data
+  cassandra:
+    image: "cassandra:3.11.4"
+    ports:
+      - 7000:7000
+    environment:
+      - MAX_HEAP_SIZE=1G
+      - HEAP_NEWSIZE=1G
+      - CASSANDRA_DC=rql_dc1
+    volumes:
+      - rql-cassandra:/var/lib/cassandra
+
+volumes:
+  rql-es7:
+    driver: local
+  rql-cassandra:
+    driver: local
